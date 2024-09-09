@@ -177,7 +177,7 @@ document.getElementById('stopBtn').addEventListener('click', stopSound);
 
 function startSound() {
     if (!isPlaying) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        audioCtx = new(window.AudioContext || window.webkitAudioContext)();
         oscillatorLeft = audioCtx.createOscillator();
         oscillatorRight = audioCtx.createOscillator();
 

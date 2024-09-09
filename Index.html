@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="keywords" content="binaural, binaural beats, meditation, sine wave, frequency, audio, brainwave, entrainment">
+    <meta name="author" content="Thomas Haighton">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Binaural Beats Meditation Tool</title>
-    <link rel="stylesheet" href="style.css"> <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <h1>Binaural Beats Meditation Tool</h1>
-    
     <div class="description">
         <h2>Theory Behind Binaural Beating</h2>
         <p>Binaural beats are an auditory illusion created when two slightly different frequencies are played separately into each ear. The brain perceives a third tone that is the mathematical difference between the two frequencies. This phenomenon is known as binaural beating, and it can influence brainwave activity, potentially inducing various mental states.</p>
-
         <p>Binaural beats were first discovered in 1839 by German scientist Heinrich Wilhelm Dove. He found that when two tones of slightly different frequencies are played into each ear, the brain perceives a pulsating sound, the beat, which is not actually present in the audio. This discovery led to further exploration into how these beats interact with brainwave activity.</p>
-
         <p>In more recent times, scientists have explored the effects of binaural beats on brain activity using EEG (electroencephalography) technology. Researchers have found that binaural beats may influence brainwave frequencies, encouraging the brain to enter different states, such as relaxation, focus, or even deep meditation. Studies are still ongoing, but binaural beats are often used in therapeutic contexts to help with anxiety, stress reduction, and even sleep improvement.</p>
-
         <p>Nowadays, binaural beats are widely used in the field of meditation and mindfulness. When a person listens to binaural beats, the brain's electrical activity is thought to synchronize with the frequency of the perceived beat. This synchronization can be used to guide the brain into specific mental states. For example, beats in the delta range (0.5-4 Hz) are linked with deep sleep, while theta waves (4-8 Hz) are associated with meditation and creativity. Alpha waves (8-12 Hz) encourage relaxation, and beta waves (12-30 Hz) promote concentration and alertness. Gamma waves (30-100 Hz) are linked to higher cognitive functions.</p>
-
         <p>Because of these potential effects, many people use binaural beats as part of their meditation routine. The soothing and rhythmic nature of the beats, combined with their ability to help the brain enter a calm state, makes them a popular tool for achieving deeper meditative states or simply promoting relaxation.</p>
-
+        
         <h2>How to Use the Tool</h2>
         <p>This tool generates binaural beats to aid in meditation and relaxation. To use the tool:</p>
         <ol>
@@ -31,10 +30,10 @@
             <li>You can stop the journey at any time by pressing the "Stop Journey" button to manually set the beat frequency again.</li>
             <li>Press "Play" to start generating sound. Press "Stop" to cease the sound.</li>
         </ol>
+        
         <h3>Recommended Use</h3>
         <p>For an enhanced experience, try using this tool while listening to some field recordings.</p>
     </div>
-
     <div>
         <h2>Base Frequency Presets</h2>
         <ul>
@@ -60,26 +59,21 @@
             </li>
         </ul>
     </div>
-
     <div>
         <label for="octaveInput">Octave:</label>
         <input type="number" id="octaveInput" value="4" min="1" max="8" onchange="drawPiano(this.value)">
     </div>
-    
     <div class="piano" id="piano"></div>
-    
     <div>
         <label for="baseFreq">Base Frequency (Hz): </label>
         <input type="number" id="baseFreq" min="1" max="5000" value="261.63" oninput="updateBaseFrequency()">
     </div>
-
     <!-- Volume control slider -->
     <div>
         <label for="volumeControl">Volume: </label>
         <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="0.5" oninput="updateVolume()">
         <span id="volumeValue">50%</span>
     </div>
-
     <!-- Journey configuration -->
     <div>
         <h3>Configure Your Journey</h3>
@@ -88,7 +82,6 @@
         <button id="startJourneyBtn">Start Journey</button>
         <button id="stopJourneyBtn">Stop Journey</button>
     </div>
-
     <!-- Controls for frequency difference and effect display -->
     <div class="controls">
         <div>
@@ -98,10 +91,9 @@
         </div>
         <div id="effectDisplay">Effect: Relaxation</div>
     </div>
-
     <button id="playBtn">Play</button>
     <button id="stopBtn">Stop</button>
-
-    <script src="script.js"></script> <!-- Link to the JS file -->
+    <script src="script.js"></script>
 </body>
+
 </html>
