@@ -1,2 +1,3 @@
-# BinauralBeatsWebpage
-Webpage with Binaural Beats meditation tool
+# Binaural Beats Webpage
+
+Webpage with Binaural Beats meditation tool.
