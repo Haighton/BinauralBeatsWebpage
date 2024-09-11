@@ -310,45 +310,24 @@ function playSound(url) {
     audioPlayer.play().catch(error => console.error('Error playing audio:', error));  // Log errors
 }
 
-/*
 function searchFreesound() {
-    const query = document.getElementById('searchTerm').value;
-    
-    // Fetch from your backend API instead of directly from Freesound
-    fetch(`/api/search?q=${query}`)
-        .then(response => response.json())
-        .then(data => displaySounds(data.results))
-        .catch(error => console.error('Error fetching data from server:', error));
-}
+    const query = document.getElementById('searchTerm').value;  // Get the search term
 
-
-function fetchFreesound(query) {
-    fetch(`/api/search?q=${query}`)
-        .then(response => response.text())  // Get raw text to inspect
-        .then(data => {
-            console.log('Raw response:', data);  // Log the raw response
-            try {
-                const jsonData = JSON.parse(data);  // Try parsing the raw text as JSON
-                displaySounds(jsonData.results);  // Use the parsed JSON
-            } catch (error) {
-                console.error('Error parsing JSON:', error);  // Catch parsing errors
-            }
-        })
-        .catch(error => console.error('Error fetching data from server:', error));
-}
-*/
-
-function fetchFreesound(query) {
-    if (!query || query.trim() === '') {
+    if (!query || query.trim() === '') {  // Check if the query is missing or empty
         console.error('Search query is missing');
         return;
     }
 
+    fetchFreesound(query);  // Call fetchFreesound with the valid query
+}
+
+function fetchFreesound(query) {
     fetch(`https://my-heroku-app.herokuapp.com/api/search?q=${encodeURIComponent(query)}`)
         .then(response => response.json())
         .then(data => displaySounds(data.results))
         .catch(error => console.error('Error fetching data from server:', error));
 }
+
 
 
 
