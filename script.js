@@ -238,26 +238,31 @@ function displaySounds(sounds) {
     const soundList = document.getElementById('soundList');
     soundList.innerHTML = '';  // Clear previous results
 
-    // If no sounds are found
     if (sounds.length === 0) {
         soundList.innerHTML = '<p>No sounds found</p>';
         return;
     }
 
-    // Iterate through each sound and create list items
     sounds.forEach(sound => {
         const listItem = document.createElement('li');
         listItem.textContent = `${sound.name} - License: ${sound.license}`;
 
-        // Add a Play button for each sound
-        const playButton = document.createElement('button');
-        playButton.textContent = 'Play';
-        playButton.addEventListener('click', () => playSound(sound.previews['preview-lq-mp3']));
+        // Check if the sound has a previews field before creating the Play button
+        if (sound.previews && sound.previews['preview-lq-mp3']) {
+            const playButton = document.createElement('button');
+            playButton.textContent = 'Play';
+            playButton.addEventListener('click', () => playSound(sound.previews['preview-lq-mp3']));
+            listItem.appendChild(playButton);
+        } else {
+            const noPreviewText = document.createElement('span');
+            noPreviewText.textContent = ' (No preview available)';
+            listItem.appendChild(noPreviewText);
+        }
 
-        listItem.appendChild(playButton);
         soundList.appendChild(listItem);
     });
 }
+
 
 
 // Function to handle pagination buttons
