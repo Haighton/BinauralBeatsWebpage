@@ -228,15 +228,15 @@ drawPiano(4);
 const soundList = document.getElementById('soundList');
 const audioPlayer = document.getElementById('audioPlayer');
 const audioSource = document.getElementById('audioSource');
-const itemsPerPage = 5;  // Number of sounds per page (now 5)
-let currentPage = 1;  // Current page
-let soundsData = [];  // Store all the fetched sounds
+const itemsPerPage = 5; // Number of sounds per page (now 5)
+let currentPage = 1; // Current page
+let soundsData = []; // Store all the fetched sounds
 
 
 // Display sounds for the current page
 ffunction displaySounds(sounds) {
     const soundList = document.getElementById('soundList');
-    soundList.innerHTML = '';  // Clear previous results
+    soundList.innerHTML = ''; // Clear previous results
 
     // Log each sound to verify structure
     sounds.forEach(sound => console.log(sound));
@@ -257,7 +257,7 @@ ffunction displaySounds(sounds) {
         const playButton = document.createElement('button');
         playButton.textContent = 'Play';
         playButton.addEventListener('click', () => playSound(sound.previews['preview-lq-mp3']));
-        
+
         listItem.appendChild(playButton);
         soundList.appendChild(listItem);
     });
@@ -269,14 +269,14 @@ ffunction displaySounds(sounds) {
 // Function to handle pagination buttons
 function displayPagination() {
     const paginationContainer = document.getElementById('pagination');
-    paginationContainer.innerHTML = '';  // Clear pagination
+    paginationContainer.innerHTML = ''; // Clear pagination
 
     const totalPages = Math.ceil(soundsData.length / itemsPerPage);
 
     // Create "Previous" button
     const prevButton = document.createElement('button');
     prevButton.textContent = 'Previous';
-    prevButton.disabled = currentPage === 1;  // Disable if on the first page
+    prevButton.disabled = currentPage === 1; // Disable if on the first page
     prevButton.addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
@@ -288,7 +288,7 @@ function displayPagination() {
     // Create "Next" button
     const nextButton = document.createElement('button');
     nextButton.textContent = 'Next';
-    nextButton.disabled = currentPage === totalPages;  // Disable if on the last page
+    nextButton.disabled = currentPage === totalPages; // Disable if on the last page
     nextButton.addEventListener('click', () => {
         if (currentPage < totalPages) {
             currentPage++;
@@ -297,7 +297,7 @@ function displayPagination() {
     });
     paginationContainer.appendChild(nextButton);
 }
-
+/*
 let nextPageUrl = null;
 let prevPageUrl = null;
 
@@ -318,12 +318,12 @@ function fetchFreesoundByUrl(url) {
         .then(response => response.json())
         .then(data => {
             displaySounds(data.results);
-            nextPageUrl = data.next;   // Update next page URL
+            nextPageUrl = data.next; // Update next page URL
             prevPageUrl = data.previous; // Update previous page URL
         })
         .catch(error => console.error('Error fetching data from server:', error));
 }
-
+*/
 
 // Function to convert seconds into minutes and seconds
 function formatDuration(seconds) {
@@ -334,25 +334,25 @@ function formatDuration(seconds) {
 
 // Function to play a selected sound
 function playSound(url) {
-    console.log(`Playing sound from URL: ${url}`);  // Log URL for debugging
+    console.log(`Playing sound from URL: ${url}`); // Log URL for debugging
     if (!url || url === '') {
         console.error('Invalid URL for audio playback.');
         return;
     }
     audioSource.src = url;
-    audioPlayer.load();  // Reload the audio player with the new source
-    audioPlayer.play().catch(error => console.error('Error playing audio:', error));  // Log errors
+    audioPlayer.load(); // Reload the audio player with the new source
+    audioPlayer.play().catch(error => console.error('Error playing audio:', error)); // Log errors
 }
 
 function searchFreesound() {
-    const query = document.getElementById('searchTerm').value;  // Get the search term
+    const query = document.getElementById('searchTerm').value; // Get the search term
 
-    if (!query || query.trim() === '') {  // Check if the query is missing or empty
+    if (!query || query.trim() === '') { // Check if the query is missing or empty
         console.error('Search query is missing');
         return;
     }
 
-    fetchFreesound(query);  // Call fetchFreesound with the valid query
+    fetchFreesound(query); // Call fetchFreesound with the valid query
 }
 
 function fetchFreesound(query) {
@@ -360,14 +360,8 @@ function fetchFreesound(query) {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            console.log('Data received:', data);  // Log the data to see if it contains results
-            displaySounds(data.results);  // Ensure this function properly handles the results
+            console.log('Data received:', data); // Log the data to see if it contains results
+            displaySounds(data.results); // Ensure this function properly handles the results
         })
         .catch(error => console.error('Error fetching data from server:', error));
 }
-
-
-
-
-
-
