@@ -1,3 +1,5 @@
+// JavaScript for Binaural Beats Meditation Tool webpage.
+
 let audioCtx;
 let oscillatorLeft, oscillatorRight, gainNodeLeft, gainNodeRight;
 let isPlaying = false;
@@ -120,6 +122,7 @@ function addJourneyStep() {
     journeyContainer.appendChild(newStep);
 }
 
+// Start Brainwave Entrainment (used to be called journey)
 function startJourney() {
     const steps = document.querySelectorAll('#journeyContainer > div');
     let totalTime = 0;
