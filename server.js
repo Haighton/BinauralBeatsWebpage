@@ -3,7 +3,11 @@ const fetch = require('node-fetch');
 const cors = require('cors');  // Import CORS
 const app = express();
 
-app.use(cors());  // Enable CORS for all routes
+//app.use(cors());  // Enable CORS for all routes
+app.use(cors({
+  origin: 'https://thomashaighton.com'  // Replace with your frontend domain
+}));
+
 
 // Your API key from the .env file
 require('dotenv').config();
@@ -28,3 +32,6 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+
+
