@@ -1,24 +1,17 @@
 const express = require('express');
-const fetch = require('node-fetch'); // Used for making requests to Freesound
+const fetch = require('node-fetch');
+const cors = require('cors');  // Import CORS
 const app = express();
-const cors = require('cors');
-app.use(cors());
-require('dotenv').config(); // Allows use of environment variables
 
+app.use(cors());  // Enable CORS for all routes
 
-const PORT = process.env.PORT || 3000; // Heroku assigns a port dynamically
-const API_KEY = process.env.FREESOUND_API_KEY; // Store your API key in an environment variable
+// Your API key from the .env file
+require('dotenv').config();
+const API_KEY = process.env.FREESOUND_API_KEY;
 
-// Middleware to allow cross-origin requests
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
-
-// Route to search for sounds
+// Define the /api/search endpoint
 app.get('/api/search', async (req, res) => {
-    const query = req.query.q; // Frontend passes the query in the URL
+    const query = req.query.q;
     const url = `https://freesound.org/apiv2/search/text/?query=${query}&token=${API_KEY}`;
 
     try {
@@ -31,11 +24,7 @@ app.get('/api/search', async (req, res) => {
     }
 });
 
-// Serve static files (your frontend code)
-app.use(express.static('public'));
-
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
-

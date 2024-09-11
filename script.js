@@ -310,6 +310,7 @@ function playSound(url) {
     audioPlayer.play().catch(error => console.error('Error playing audio:', error));  // Log errors
 }
 
+/*
 function searchFreesound() {
     const query = document.getElementById('searchTerm').value;
     
@@ -319,5 +320,36 @@ function searchFreesound() {
         .then(data => displaySounds(data.results))
         .catch(error => console.error('Error fetching data from server:', error));
 }
+
+
+function fetchFreesound(query) {
+    fetch(`/api/search?q=${query}`)
+        .then(response => response.text())  // Get raw text to inspect
+        .then(data => {
+            console.log('Raw response:', data);  // Log the raw response
+            try {
+                const jsonData = JSON.parse(data);  // Try parsing the raw text as JSON
+                displaySounds(jsonData.results);  // Use the parsed JSON
+            } catch (error) {
+                console.error('Error parsing JSON:', error);  // Catch parsing errors
+            }
+        })
+        .catch(error => console.error('Error fetching data from server:', error));
+}
+*/
+
+function fetchFreesound(query) {
+    if (!query || query.trim() === '') {
+        console.error('Search query is missing');
+        return;
+    }
+
+    fetch(`https://my-heroku-app.herokuapp.com/api/search?q=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => displaySounds(data.results))
+        .catch(error => console.error('Error fetching data from server:', error));
+}
+
+
 
 
