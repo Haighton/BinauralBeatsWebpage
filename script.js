@@ -325,7 +325,10 @@ function fetchFreesound(query) {
     const url = `https://fathomless-badlands-08982-d3350df42aa9.herokuapp.com/api/search?q=${encodeURIComponent(query)}`;
     fetch(url)
         .then(response => response.json())
-        .then(data => displaySounds(data.results))
+        .then(data => {
+            console.log('Data received:', data);  // Log the data to see if it contains results
+            displaySounds(data.results);  // Ensure this function properly handles the results
+        })
         .catch(error => console.error('Error fetching data from server:', error));
 }
 
