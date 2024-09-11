@@ -223,3 +223,101 @@ function stopSound() {
 
 // Initialize piano keys and display
 drawPiano(4);
+
+//const API_KEY = '2zyLM9SEVTdFe9UdVQKEl0bDMRDyX461mYemcs3S';  // Replace with your Freesound API Key
+const soundList = document.getElementById('soundList');
+const audioPlayer = document.getElementById('audioPlayer');
+const audioSource = document.getElementById('audioSource');
+const itemsPerPage = 5;  // Number of sounds per page (now 5)
+let currentPage = 1;  // Current page
+let soundsData = [];  // Store all the fetched sounds
+
+
+// Display sounds for the current page
+function displaySounds(page) {
+    soundList.innerHTML = '';  // Clear previous results
+
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const soundsToShow = soundsData.slice(startIndex, endIndex);
+
+    soundsToShow.forEach(sound => {
+        const formattedDuration = formatDuration(sound.duration);  // Format the duration
+
+        const listItem = document.createElement('li');
+        listItem.textContent = `${sound.name} - Duration: ${formattedDuration}`;
+
+        // Button to play the sound
+        const playButton = document.createElement('button');
+        playButton.textContent = 'Play';
+        playButton.addEventListener('click', () => playSound(sound.previews['preview-lq-mp3']));
+
+        listItem.appendChild(playButton);
+        soundList.appendChild(listItem);
+    });
+
+    displayPagination();
+}
+
+// Function to handle pagination buttons
+function displayPagination() {
+    const paginationContainer = document.getElementById('pagination');
+    paginationContainer.innerHTML = '';  // Clear pagination
+
+    const totalPages = Math.ceil(soundsData.length / itemsPerPage);
+
+    // Create "Previous" button
+    const prevButton = document.createElement('button');
+    prevButton.textContent = 'Previous';
+    prevButton.disabled = currentPage === 1;  // Disable if on the first page
+    prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            displaySounds(currentPage);
+        }
+    });
+    paginationContainer.appendChild(prevButton);
+
+    // Create "Next" button
+    const nextButton = document.createElement('button');
+    nextButton.textContent = 'Next';
+    nextButton.disabled = currentPage === totalPages;  // Disable if on the last page
+    nextButton.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            displaySounds(currentPage);
+        }
+    });
+    paginationContainer.appendChild(nextButton);
+}
+
+// Function to convert seconds into minutes and seconds
+function formatDuration(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = (seconds % 60).toFixed(0);
+    return `${minutes}m ${remainingSeconds}s`;
+}
+
+// Function to play a selected sound
+function playSound(url) {
+    console.log(`Playing sound from URL: ${url}`);  // Log URL for debugging
+    if (!url || url === '') {
+        console.error('Invalid URL for audio playback.');
+        return;
+    }
+    audioSource.src = url;
+    audioPlayer.load();  // Reload the audio player with the new source
+    audioPlayer.play().catch(error => console.error('Error playing audio:', error));  // Log errors
+}
+
+function searchFreesound() {
+    const query = document.getElementById('searchTerm').value;
+    
+    // Fetch from your backend API instead of directly from Freesound
+    fetch(`/api/search?q=${query}`)
+        .then(response => response.json())
+        .then(data => displaySounds(data.results))
+        .catch(error => console.error('Error fetching data from server:', error));
+}
+
+
