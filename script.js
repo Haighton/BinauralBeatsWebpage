@@ -234,10 +234,14 @@ let soundsData = [];  // Store all the fetched sounds
 
 
 // Display sounds for the current page
-function displaySounds(sounds) {
+ffunction displaySounds(sounds) {
     const soundList = document.getElementById('soundList');
     soundList.innerHTML = '';  // Clear previous results
 
+    // Log each sound to verify structure
+    sounds.forEach(sound => console.log(sound));
+
+    // Filter sounds that have a valid preview URL
     const soundsWithPreviews = sounds.filter(sound => sound.previews && sound.previews['preview-lq-mp3']);
 
     if (soundsWithPreviews.length === 0) {
@@ -245,6 +249,7 @@ function displaySounds(sounds) {
         return;
     }
 
+    // Iterate through each sound and display
     soundsWithPreviews.forEach(sound => {
         const listItem = document.createElement('li');
         listItem.textContent = `${sound.name} - License: ${sound.license}`;
@@ -252,11 +257,12 @@ function displaySounds(sounds) {
         const playButton = document.createElement('button');
         playButton.textContent = 'Play';
         playButton.addEventListener('click', () => playSound(sound.previews['preview-lq-mp3']));
-
+        
         listItem.appendChild(playButton);
         soundList.appendChild(listItem);
     });
 }
+
 
 
 
