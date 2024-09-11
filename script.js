@@ -238,27 +238,22 @@ function displaySounds(sounds) {
     const soundList = document.getElementById('soundList');
     soundList.innerHTML = '';  // Clear previous results
 
-    if (sounds.length === 0) {
-        soundList.innerHTML = '<p>No sounds found</p>';
+    const soundsWithPreviews = sounds.filter(sound => sound.previews && sound.previews['preview-lq-mp3']);
+
+    if (soundsWithPreviews.length === 0) {
+        soundList.innerHTML = '<p>No sounds with previews found</p>';
         return;
     }
 
-    sounds.forEach(sound => {
+    soundsWithPreviews.forEach(sound => {
         const listItem = document.createElement('li');
         listItem.textContent = `${sound.name} - License: ${sound.license}`;
 
-        // Check if the sound has a previews field before creating the Play button
-        if (sound.previews && sound.previews['preview-lq-mp3']) {
-            const playButton = document.createElement('button');
-            playButton.textContent = 'Play';
-            playButton.addEventListener('click', () => playSound(sound.previews['preview-lq-mp3']));
-            listItem.appendChild(playButton);
-        } else {
-            const noPreviewText = document.createElement('span');
-            noPreviewText.textContent = ' (No preview available)';
-            listItem.appendChild(noPreviewText);
-        }
+        const playButton = document.createElement('button');
+        playButton.textContent = 'Play';
+        playButton.addEventListener('click', () => playSound(sound.previews['preview-lq-mp3']));
 
+        listItem.appendChild(playButton);
         soundList.appendChild(listItem);
     });
 }
