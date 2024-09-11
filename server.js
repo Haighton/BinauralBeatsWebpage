@@ -1,7 +1,10 @@
 const express = require('express');
 const fetch = require('node-fetch'); // Used for making requests to Freesound
 const app = express();
+const cors = require('cors');
+app.use(cors());
 require('dotenv').config(); // Allows use of environment variables
+
 
 const PORT = process.env.PORT || 3000; // Heroku assigns a port dynamically
 const API_KEY = process.env.FREESOUND_API_KEY; // Store your API key in an environment variable
@@ -34,3 +37,5 @@ app.use(express.static('public'));
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+
