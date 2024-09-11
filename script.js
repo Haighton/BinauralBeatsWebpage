@@ -322,11 +322,13 @@ function searchFreesound() {
 }
 
 function fetchFreesound(query) {
-    fetch(`https://my-heroku-app.herokuapp.com/api/search?q=${encodeURIComponent(query)}`)
+    const url = `https://fathomless-badlands-08982-d3350df42aa9.herokuapp.com/api/search?q=${encodeURIComponent(query)}`;
+    fetch(url)
         .then(response => response.json())
         .then(data => displaySounds(data.results))
         .catch(error => console.error('Error fetching data from server:', error));
 }
+
 
 
 
