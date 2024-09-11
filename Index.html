@@ -37,9 +37,10 @@
             <h2>Search Freesound</h2>
             <input type="text" id="searchTerm" placeholder="Type a search term...">
             <button onclick="searchFreesound()">Search</button>
+            <ul id="soundList"></ul>
+            <div id="pagination"></div> <!-- Pagination container -->
         </div>
-        <ul id="soundList"></ul>
-        <div id="pagination"></div> <!-- Pagination container -->
+        
         <audio id="audioPlayer" controls>
             <source id="audioSource" src="" type="audio/mpeg">
             Your browser does not support the audio element.

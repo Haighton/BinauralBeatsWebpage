@@ -234,20 +234,22 @@ let soundsData = [];  // Store all the fetched sounds
 
 
 // Display sounds for the current page
-function displaySounds(page) {
+function displaySounds(sounds) {
+    const soundList = document.getElementById('soundList');
     soundList.innerHTML = '';  // Clear previous results
 
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const soundsToShow = soundsData.slice(startIndex, endIndex);
+    // If no sounds are found
+    if (sounds.length === 0) {
+        soundList.innerHTML = '<p>No sounds found</p>';
+        return;
+    }
 
-    soundsToShow.forEach(sound => {
-        const formattedDuration = formatDuration(sound.duration);  // Format the duration
-
+    // Iterate through each sound and create list items
+    sounds.forEach(sound => {
         const listItem = document.createElement('li');
-        listItem.textContent = `${sound.name} - Duration: ${formattedDuration}`;
+        listItem.textContent = `${sound.name} - License: ${sound.license}`;
 
-        // Button to play the sound
+        // Add a Play button for each sound
         const playButton = document.createElement('button');
         playButton.textContent = 'Play';
         playButton.addEventListener('click', () => playSound(sound.previews['preview-lq-mp3']));
@@ -255,9 +257,8 @@ function displaySounds(page) {
         listItem.appendChild(playButton);
         soundList.appendChild(listItem);
     });
-
-    displayPagination();
 }
+
 
 // Function to handle pagination buttons
 function displayPagination() {
@@ -290,6 +291,33 @@ function displayPagination() {
     });
     paginationContainer.appendChild(nextButton);
 }
+
+let nextPageUrl = null;
+let prevPageUrl = null;
+
+function fetchNextPage() {
+    if (nextPageUrl) {
+        fetchFreesoundByUrl(nextPageUrl);
+    }
+}
+
+function fetchPreviousPage() {
+    if (prevPageUrl) {
+        fetchFreesoundByUrl(prevPageUrl);
+    }
+}
+
+function fetchFreesoundByUrl(url) {
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            displaySounds(data.results);
+            nextPageUrl = data.next;   // Update next page URL
+            prevPageUrl = data.previous; // Update previous page URL
+        })
+        .catch(error => console.error('Error fetching data from server:', error));
+}
+
 
 // Function to convert seconds into minutes and seconds
 function formatDuration(seconds) {
