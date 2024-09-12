@@ -1,4 +1,7 @@
-// Server script, hosted on Heroku
+/* Server script for Binaural Beats Meditation Tool.
+   
+   Freesound.org API docs: https://freesound.org/docs/api/resources_apiv2.html#text-search
+*/
 
 const cors = require('cors');
 const express = require('express');
@@ -8,7 +11,7 @@ app.use(cors());  // Enable CORS for all routes
 app.use(express.json());  // Enable JSON parsing for incoming requests
 
 // Define your routes, query opstellen.
-// API doc: https://freesound.org/docs/api/index.html
+
 app.get('/api/search', async (req, res) => {
     const query = req.query.q;
     const velden = "name,description,username,duration,previews";
