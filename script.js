@@ -234,7 +234,7 @@ let soundsData = []; // Store all the fetched sounds
 
 
 // Display sounds for the current page
-ffunction displaySounds(sounds) {
+function displaySounds(sounds) {
     const soundList = document.getElementById('soundList');
     soundList.innerHTML = ''; // Clear previous results
 
