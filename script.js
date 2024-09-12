@@ -257,10 +257,13 @@ function displaySounds(sounds) {
     soundsWithPreviews.forEach(sound => {
         const listItem = document.createElement('li');
 
-        // Format duration as minutes:seconds
-        const minutes = Math.floor(sound.duration / 60);
+        // Format duration as hours:minutes:seconds
+        const hours = Math.floor(sound.duration / 3600);
+        const minutes = Math.floor((sound.duration % 3600) / 60);
         const seconds = Math.floor(sound.duration % 60);
-        const formattedDuration = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;  // Ensures two digits for seconds
+        const formattedDuration = 
+            (hours > 0 ? `${hours}:${minutes.toString().padStart(2, '0')}:` : `${minutes}:`) + 
+            seconds.toString().padStart(2, '0');  // Ensures two digits for minutes/seconds
 
         // Only create the High-Quality Preview button if it exists
         if (sound.previews['preview-hq-mp3']) {
@@ -297,9 +300,10 @@ function playSound(url, sound) {
     soundDetails.innerHTML = `
         <p><strong>Description:</strong> ${sound.description || 'No description available.'}</p>
         <p><strong>Uploaded by:</strong> <a href="https://freesound.org/people/${sound.username}/" target="_blank">${sound.username}</a></p>
-        <p><strong>Duration:</strong> ${Math.floor(sound.duration / 60)}:${Math.floor(sound.duration % 60).toString().padStart(2, '0')} minutes</p>
+        <p><strong>Duration:</strong> ${Math.floor(sound.duration / 3600)}:${Math.floor((sound.duration % 3600) / 60).toString().padStart(2, '0')}:${Math.floor(sound.duration % 60).toString().padStart(2, '0')} hours</p>
     `;
 }
+
 
 
 
