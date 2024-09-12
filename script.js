@@ -256,7 +256,11 @@ function displaySounds(sounds) {
 
     soundsWithPreviews.forEach(sound => {
         const listItem = document.createElement('li');
-        listItem.textContent = `${sound.name} - Duration: ${sound.duration} seconds`;
+
+        // Format duration as minutes:seconds
+        const minutes = Math.floor(sound.duration / 60);
+        const seconds = Math.floor(sound.duration % 60);
+        const formattedDuration = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;  // Ensures two digits for seconds
 
         // Only create the High-Quality Preview button if it exists
         if (sound.previews['preview-hq-mp3']) {
@@ -272,6 +276,8 @@ function displaySounds(sounds) {
             listItem.appendChild(playLowQualityButton);
         }
 
+        // Display the name and duration after the button
+        listItem.appendChild(document.createTextNode(` ${sound.name} - Duration: ${formattedDuration}`));
         soundList.appendChild(listItem);
     });
 }
@@ -291,9 +297,10 @@ function playSound(url, sound) {
     soundDetails.innerHTML = `
         <p><strong>Description:</strong> ${sound.description || 'No description available.'}</p>
         <p><strong>Uploaded by:</strong> <a href="https://freesound.org/people/${sound.username}/" target="_blank">${sound.username}</a></p>
-        <p><strong>Duration:</strong> ${sound.duration} seconds</p>
+        <p><strong>Duration:</strong> ${Math.floor(sound.duration / 60)}:${Math.floor(sound.duration % 60).toString().padStart(2, '0')} minutes</p>
     `;
 }
+
 
 
 // Function to play a selected sound

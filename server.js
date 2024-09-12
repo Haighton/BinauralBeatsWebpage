@@ -5,7 +5,8 @@ const app = express();
 app.use(cors());  // Enable CORS for all routes
 app.use(express.json());  // Enable JSON parsing for incoming requests
 
-// Define your routes
+// Define your routes, query opstellen.
+// API doc: https://freesound.org/docs/api/index.html
 app.get('/api/search', async (req, res) => {
     const query = req.query.q;
     const velden = "name,description,username,duration,previews";
