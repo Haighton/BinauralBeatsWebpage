@@ -256,23 +256,45 @@ function displaySounds(sounds) {
 
     soundsWithPreviews.forEach(sound => {
         const listItem = document.createElement('li');
-        listItem.textContent = `${sound.name} - License: ${sound.license}`;
+        listItem.textContent = `${sound.name} - Duration: ${sound.duration} seconds`;
 
-        // Create a Play Low-Quality Preview button
-        const playLowQualityButton = document.createElement('button');
-        playLowQualityButton.textContent = 'Play Low Quality (MP3)';
-        playLowQualityButton.addEventListener('click', () => playSound(sound.previews['preview-lq-mp3']));
-        listItem.appendChild(playLowQualityButton);
-
-        // Create a Play High-Quality Preview button
-        const playHighQualityButton = document.createElement('button');
-        playHighQualityButton.textContent = 'Play High Quality (MP3)';
-        playHighQualityButton.addEventListener('click', () => playSound(sound.previews['preview-hq-mp3']));
-        listItem.appendChild(playHighQualityButton);
+        // Only create the High-Quality Preview button if it exists
+        if (sound.previews['preview-hq-mp3']) {
+            const playHighQualityButton = document.createElement('button');
+            playHighQualityButton.textContent = 'Play High Quality (MP3)';
+            playHighQualityButton.addEventListener('click', () => playSound(sound.previews['preview-hq-mp3'], sound));
+            listItem.appendChild(playHighQualityButton);
+        } else if (sound.previews['preview-lq-mp3']) {
+            // Create Low-Quality Preview button if no high-quality preview is available
+            const playLowQualityButton = document.createElement('button');
+            playLowQualityButton.textContent = 'Play Low Quality (MP3)';
+            playLowQualityButton.addEventListener('click', () => playSound(sound.previews['preview-lq-mp3'], sound));
+            listItem.appendChild(playLowQualityButton);
+        }
 
         soundList.appendChild(listItem);
     });
 }
+
+// Function to play a selected sound and display its details
+function playSound(url, sound) {
+    console.log(`Playing sound from URL: ${url}`);  // Log the URL for debugging
+    const audioSource = document.getElementById('audioSource');
+    const audioPlayer = document.getElementById('audioPlayer');
+    const soundDetails = document.getElementById('soundDetails');
+
+    audioSource.src = url;
+    audioPlayer.load();  // Reload the audio player with the new source
+    audioPlayer.play().catch(error => console.error('Error playing audio:', error));
+
+    // Display the sound's description, username, and duration
+    soundDetails.innerHTML = `
+        <p><strong>Description:</strong> ${sound.description || 'No description available.'}</p>
+        <p><strong>Uploaded by:</strong> <a href="https://freesound.org/people/${sound.username}/" target="_blank">${sound.username}</a></p>
+        <p><strong>Duration:</strong> ${sound.duration} seconds</p>
+    `;
+}
+
 
 // Function to play a selected sound
 function playSound(url) {
