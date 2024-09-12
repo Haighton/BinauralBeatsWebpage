@@ -96,8 +96,9 @@
     width: 100%;
 }
 
-#freesoundsearch {
+#freesoundsearchblock {
     border: 1px solid black;
+    padding-left: 10px;
 }
 
 /* Style for right-aligned images */

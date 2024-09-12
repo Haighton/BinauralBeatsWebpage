@@ -53,7 +53,7 @@
             <li><strong>Add Background Sounds</strong>:
                 <ul>
                     <li>You have the option to play soothing background noise alongside the binaural beats.</li>
-                    <li>Search for field recordings or ambient sounds from Freesound.org to complement your experience.</li>
+                    <li>Search for field recordings or ambient sounds from <a href="https://freesound.org/">Freesound.org</a> to complement your experience.</li>
                     <li>You can choose nature sounds, urban environments, or other ambient noise to enhance your meditation session.</li>
                     <li>You can also use some of my own Binaural Field Recordings on <a href="https://soundcloud.com/deteq/sets/field-recordings?si=d64b7bcdab9c4f0e87c25f253c48c84f&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" target="_blank">Soundcloud</a>.</li>
                 </ul>
@@ -71,8 +71,9 @@
 
     <!-- FREESOUND.ORG SEARCH BLOCK -->
     <div id=freesoundsearchblock>
-        <h2>Search Freesound.org</h2>
-        <input type="text" id="searchTerm" placeholder="Search for sounds...">
+        <h2>Background sounds</h2>
+        <p>Search Freesound.org database:</p>
+        <input type="text" id="searchTerm" placeholder="try 'thunder' or 'birds'">
         <button id="searchButton">Search</button>
         <ul id="soundList"></ul>
         <audio id="audioPlayer" controls>
@@ -122,14 +123,7 @@
     <!-- BEATING FREQUENCY BLOCK -->
     <div id="beatingfreqblock">
         <h2>Beating Frequency</h2>
-        <!-- Brainwave Entrainment -->
-        <div id="entrainment">
-            <h3>Brainwave Entrainment Path</h3>
-            <div id="journeyContainer"></div>
-            <button id="addJourneyStep">Add Step</button>
-            <button id="startJourneyBtn">Start Entrainment</button>
-            <button id="stopJourneyBtn">Stop Entrainment</button>
-        </div>
+        
         <!-- Controls for frequency difference and effect display -->
         <div class="controls">
             <div>
@@ -139,10 +133,19 @@
             </div>
             <div id="effectDisplay">Effect: Relaxation</div>
         </div>
+        <!-- Brainwave Entrainment -->
+        <div id="entrainment">
+            <h3>Brainwave Entrainment Path</h3>
+            <div id="journeyContainer"></div>
+            <button id="addJourneyStep">Add Step</button>
+            <button id="startJourneyBtn">Start Entrainment</button>
+            <button id="stopJourneyBtn">Stop Entrainment</button>
+        </div>
     </div>
 
     <!-- PLAYBACK CONTROLS BLOCK -->
     <div id="playbackcontrols">
+        <h2>Playback Controls binaural beating</h2>
         <button id="playBtn">Play</button>
         <button id="stopBtn">Stop</button>
         <!-- Volume control slider -->
