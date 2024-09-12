@@ -8,7 +8,8 @@ app.use(express.json());  // Enable JSON parsing for incoming requests
 // Define your routes
 app.get('/api/search', async (req, res) => {
     const query = req.query.q;
-    const url = `https://freesound.org/apiv2/search/text/?query=${query}&token=${process.env.FREESOUND_API_KEY}`;
+    const velden = "name, url, previews";
+    const url = `https://freesound.org/apiv2/search/text/?query=${query}&fields=${velden}&token=${process.env.FREESOUND_API_KEY}`;
     
     try {
         const response = await fetch(url);

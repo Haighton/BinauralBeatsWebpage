@@ -228,140 +228,59 @@ drawPiano(4);
 const soundList = document.getElementById('soundList');
 const audioPlayer = document.getElementById('audioPlayer');
 const audioSource = document.getElementById('audioSource');
-const itemsPerPage = 5; // Number of sounds per page (now 5)
-let currentPage = 1; // Current page
-let soundsData = []; // Store all the fetched sounds
 
+// Function to search and fetch sounds from the Heroku backend
+function fetchFreesound(query) {
+    const url = `https://fathomless-badlands-08982-d3350df42aa9.herokuapp.com/api/search?q=${encodeURIComponent(query)}`;
 
-// Display sounds for the current page
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            console.log('Data received:', data);  // Log the data for debugging
+            displaySounds(data.results);  // Display the sounds on the page
+        })
+        .catch(error => console.error('Error fetching Freesound data:', error));
+}
+
+// Display the fetched sounds as a list
 function displaySounds(sounds) {
-    const soundList = document.getElementById('soundList');
-    soundList.innerHTML = ''; // Clear previous results
+    soundList.innerHTML = '';  // Clear previous results
 
-    // Log each sound to verify structure
-    sounds.forEach(sound => console.log(sound));
-
-    // Filter sounds that have a valid preview URL
-    const soundsWithPreviews = sounds.filter(sound => sound.previews && sound.previews['preview-lq-mp3']);
-
-    if (soundsWithPreviews.length === 0) {
-        soundList.innerHTML = '<p>No sounds with previews found</p>';
-        return;
-    }
-
-    // Iterate through each sound and display
-    soundsWithPreviews.forEach(sound => {
+    sounds.forEach(sound => {
         const listItem = document.createElement('li');
         listItem.textContent = `${sound.name} - License: ${sound.license}`;
 
-        const playButton = document.createElement('button');
-        playButton.textContent = 'Play';
-        playButton.addEventListener('click', () => playSound(sound.previews['preview-lq-mp3']));
+        // Check for the original audio download URL
+        if (sound.download) {
+            const playButton = document.createElement('button');
+            playButton.textContent = 'Play Original';
+            playButton.addEventListener('click', () => playSound(sound.download));
+            listItem.appendChild(playButton);
+        } else {
+            const noAudioText = document.createElement('span');
+            noAudioText.textContent = ' (Original audio not available)';
+            listItem.appendChild(noAudioText);
+        }
 
-        listItem.appendChild(playButton);
         soundList.appendChild(listItem);
     });
 }
 
 
-
-
-// Function to handle pagination buttons
-function displayPagination() {
-    const paginationContainer = document.getElementById('pagination');
-    paginationContainer.innerHTML = ''; // Clear pagination
-
-    const totalPages = Math.ceil(soundsData.length / itemsPerPage);
-
-    // Create "Previous" button
-    const prevButton = document.createElement('button');
-    prevButton.textContent = 'Previous';
-    prevButton.disabled = currentPage === 1; // Disable if on the first page
-    prevButton.addEventListener('click', () => {
-        if (currentPage > 1) {
-            currentPage--;
-            displaySounds(currentPage);
-        }
-    });
-    paginationContainer.appendChild(prevButton);
-
-    // Create "Next" button
-    const nextButton = document.createElement('button');
-    nextButton.textContent = 'Next';
-    nextButton.disabled = currentPage === totalPages; // Disable if on the last page
-    nextButton.addEventListener('click', () => {
-        if (currentPage < totalPages) {
-            currentPage++;
-            displaySounds(currentPage);
-        }
-    });
-    paginationContainer.appendChild(nextButton);
-}
-/*
-let nextPageUrl = null;
-let prevPageUrl = null;
-
-function fetchNextPage() {
-    if (nextPageUrl) {
-        fetchFreesoundByUrl(nextPageUrl);
-    }
-}
-
-function fetchPreviousPage() {
-    if (prevPageUrl) {
-        fetchFreesoundByUrl(prevPageUrl);
-    }
-}
-
-function fetchFreesoundByUrl(url) {
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            displaySounds(data.results);
-            nextPageUrl = data.next; // Update next page URL
-            prevPageUrl = data.previous; // Update previous page URL
-        })
-        .catch(error => console.error('Error fetching data from server:', error));
-}
-*/
-
-// Function to convert seconds into minutes and seconds
-function formatDuration(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = (seconds % 60).toFixed(0);
-    return `${minutes}m ${remainingSeconds}s`;
-}
-
 // Function to play a selected sound
 function playSound(url) {
-    console.log(`Playing sound from URL: ${url}`); // Log URL for debugging
-    if (!url || url === '') {
-        console.error('Invalid URL for audio playback.');
-        return;
-    }
+    console.log(`Playing sound from URL: ${url}`);  // Log the URL for debugging
     audioSource.src = url;
-    audioPlayer.load(); // Reload the audio player with the new source
-    audioPlayer.play().catch(error => console.error('Error playing audio:', error)); // Log errors
+    audioPlayer.load();  // Reload the audio player with the new source
+    audioPlayer.play().catch(error => console.error('Error playing audio:', error));
 }
 
-function searchFreesound() {
-    const query = document.getElementById('searchTerm').value; // Get the search term
-
-    if (!query || query.trim() === '') { // Check if the query is missing or empty
-        console.error('Search query is missing');
+// Search button event listener
+document.getElementById('searchButton').addEventListener('click', () => {
+    const query = document.getElementById('searchTerm').value;
+    if (!query.trim()) {
+        alert('Please enter a search term.');
         return;
     }
-
-    fetchFreesound(query); // Call fetchFreesound with the valid query
-}
-
-function fetchFreesound(query) {
-    const url = `https://fathomless-badlands-08982-d3350df42aa9.herokuapp.com/api/search?q=${encodeURIComponent(query)}`;
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            console.log('Data received:', data); // Log the data to see if it contains results
-            displaySounds(data.results); // Ensure this function properly handles the results
-        })
-        .catch(error => console.error('Error fetching data from server:', error));
-}
+    fetchFreesound(query);  // Fetch Freesound data with the query
+});
