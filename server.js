@@ -1,3 +1,5 @@
+// Server script, hosted on Heroku
+
 const cors = require('cors');
 const express = require('express');
 const app = express();

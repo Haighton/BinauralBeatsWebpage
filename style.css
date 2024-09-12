@@ -48,6 +48,7 @@
 #basefrequencyblock {
     border:1px solid black;
     padding-top: 1px;
+    margin-bottom: 20px; /* Add bottom margin to create space */
 }
 
 #basefrequency {
@@ -80,3 +81,21 @@
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
+#soundDetails {
+    position: relative; /* Keeps it in the document flow */
+    z-index: 10; /* Ensures it appears above other elements */
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9; /* Background color to differentiate it */
+    font-size: 16px;
+    line-height: 1.5;
+    display: block; /* Ensure it stays visible */
+    width: 100%;
+}
+
+#freesoundsearch {
+    border: 1px solid black;
+}
+
