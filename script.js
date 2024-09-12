@@ -28,7 +28,7 @@ function updateFrequencyDifference() {
     const display = document.getElementById('diffFreqDisplay');
     let inputValue = parseFloat(input.value);
 
-    if (!isNaN(inputValue) && inputValue >= 1.0 && inputValue <= 100.0) {
+    if (!isNaN(inputValue) && inputValue >= 0.1 && inputValue <= 100.0) {
         display.textContent = inputValue.toFixed(1);
     } else {
         input.value = '1.0';
