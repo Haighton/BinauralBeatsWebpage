@@ -11,7 +11,8 @@ app.get('/api/search', async (req, res) => {
     const query = req.query.q;
     const velden = "name,description,username,duration,previews";
     const filterms = "duration:[240 TO *]"
-    const url = `https://freesound.org/apiv2/search/text/?query=${query}&filter=${filterms}&fields=${velden}&token=${process.env.FREESOUND_API_KEY}`;
+    const sort = "duration_desc"
+    const url = `https://freesound.org/apiv2/search/text/?query=${query}&filter=${filterms}&sort=${sort}&fields=${velden}&token=${process.env.FREESOUND_API_KEY}`;
     
     try {
         const response = await fetch(url);
