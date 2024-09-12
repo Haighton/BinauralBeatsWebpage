@@ -12,7 +12,7 @@ app.use(express.json());  // Enable JSON parsing for incoming requests
 app.get('/api/search', async (req, res) => {
     const query = req.query.q;
     const velden = "name,description,username,duration,previews";
-    const filterms = "duration:[240 TO *]"
+    const filterms = "duration:[240 TO *],tag:field-recording,tag:calm"
     const sort = "duration_desc"
     const url = `https://freesound.org/apiv2/search/text/?query=${query}&filter=${filterms}&sort=${sort}&fields=${velden}&token=${process.env.FREESOUND_API_KEY}`;
     
