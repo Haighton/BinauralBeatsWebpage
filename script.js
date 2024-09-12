@@ -242,38 +242,49 @@ function fetchFreesound(query) {
         .catch(error => console.error('Error fetching Freesound data:', error));
 }
 
-// Display the fetched sounds as a list
 function displaySounds(sounds) {
+    const soundList = document.getElementById('soundList');
     soundList.innerHTML = '';  // Clear previous results
 
-    sounds.forEach(sound => {
+    // Filter sounds that have at least one preview available
+    const soundsWithPreviews = sounds.filter(sound => sound.previews && (sound.previews['preview-lq-mp3'] || sound.previews['preview-hq-mp3']));
+
+    if (soundsWithPreviews.length === 0) {
+        soundList.innerHTML = '<p>No sounds with previews available.</p>';
+        return;
+    }
+
+    soundsWithPreviews.forEach(sound => {
         const listItem = document.createElement('li');
         listItem.textContent = `${sound.name} - License: ${sound.license}`;
 
-        // Check for the original audio download URL
-        if (sound.download) {
-            const playButton = document.createElement('button');
-            playButton.textContent = 'Play Original';
-            playButton.addEventListener('click', () => playSound(sound.download));
-            listItem.appendChild(playButton);
-        } else {
-            const noAudioText = document.createElement('span');
-            noAudioText.textContent = ' (Original audio not available)';
-            listItem.appendChild(noAudioText);
-        }
+        // Create a Play Low-Quality Preview button
+        const playLowQualityButton = document.createElement('button');
+        playLowQualityButton.textContent = 'Play Low Quality (MP3)';
+        playLowQualityButton.addEventListener('click', () => playSound(sound.previews['preview-lq-mp3']));
+        listItem.appendChild(playLowQualityButton);
+
+        // Create a Play High-Quality Preview button
+        const playHighQualityButton = document.createElement('button');
+        playHighQualityButton.textContent = 'Play High Quality (MP3)';
+        playHighQualityButton.addEventListener('click', () => playSound(sound.previews['preview-hq-mp3']));
+        listItem.appendChild(playHighQualityButton);
 
         soundList.appendChild(listItem);
     });
 }
 
-
 // Function to play a selected sound
 function playSound(url) {
     console.log(`Playing sound from URL: ${url}`);  // Log the URL for debugging
+    const audioSource = document.getElementById('audioSource');
+    const audioPlayer = document.getElementById('audioPlayer');
+    
     audioSource.src = url;
     audioPlayer.load();  // Reload the audio player with the new source
     audioPlayer.play().catch(error => console.error('Error playing audio:', error));
 }
+
 
 // Search button event listener
 document.getElementById('searchButton').addEventListener('click', () => {
