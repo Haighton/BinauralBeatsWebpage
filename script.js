@@ -265,58 +265,78 @@ function displaySounds(sounds) {
             (hours > 0 ? `${hours}:${minutes.toString().padStart(2, '0')}:` : `${minutes}:`) + 
             seconds.toString().padStart(2, '0');  // Ensures two digits for minutes/seconds
 
-        // Only create the High-Quality Preview button if it exists
+        // Create the Play button with the play symbol
+        const playButton = document.createElement('button');
+        playButton.textContent = '▶️';  // Play symbol
         if (sound.previews['preview-hq-mp3']) {
-            const playHighQualityButton = document.createElement('button');
-            playHighQualityButton.textContent = 'Play High Quality (MP3)';
-            playHighQualityButton.addEventListener('click', () => playSound(sound.previews['preview-hq-mp3'], sound));
-            listItem.appendChild(playHighQualityButton);
+            playButton.addEventListener('click', () => playSound(sound.previews['preview-hq-mp3'], sound));
         } else if (sound.previews['preview-lq-mp3']) {
-            // Create Low-Quality Preview button if no high-quality preview is available
-            const playLowQualityButton = document.createElement('button');
-            playLowQualityButton.textContent = 'Play Low Quality (MP3)';
-            playLowQualityButton.addEventListener('click', () => playSound(sound.previews['preview-lq-mp3'], sound));
-            listItem.appendChild(playLowQualityButton);
+            playButton.addEventListener('click', () => playSound(sound.previews['preview-lq-mp3'], sound));
         }
 
-        // Display the name and duration after the button
+        // Add the Play button and display the name and duration
+        listItem.appendChild(playButton);
         listItem.appendChild(document.createTextNode(` ${sound.name} - Duration: ${formattedDuration}`));
         soundList.appendChild(listItem);
     });
 }
 
-// Function to play a selected sound and display its details
+
 function playSound(url, sound) {
-    console.log(`Playing sound from URL: ${url}`);  // Log the URL for debugging
     const audioSource = document.getElementById('audioSource');
     const audioPlayer = document.getElementById('audioPlayer');
     const soundDetails = document.getElementById('soundDetails');
 
-    audioSource.src = url;
-    audioPlayer.load();  // Reload the audio player with the new source
-    audioPlayer.play().catch(error => console.error('Error playing audio:', error));
+    // Pause and reset the player to its default state before loading a new file
+    audioPlayer.pause();
+    audioPlayer.currentTime = 0;  // Reset the audio position to the start
 
-    // Display the sound's description, username, and duration
+    // Load the selected sound URL into the audio player
+    audioSource.src = url;
+    audioPlayer.load();
+
+    // Ensure volume and unmute the player
+    audioPlayer.muted = false;
+    audioPlayer.volume = 1; // Set volume to 100%
+
+    // Try to play the audio right after loading
+    audioPlayer.play().then(() => {
+        audioPlayer.muted = false;
+        audioPlayer.volume = 1;
+    }).catch(error => {
+        console.log('Auto-play was blocked, waiting for user interaction:', error);
+    });
+
+    // Format sound duration
+    const hours = Math.floor(sound.duration / 3600);
+    const minutes = Math.floor((sound.duration % 3600) / 60);
+    const seconds = Math.floor(sound.duration % 60);
+    const formattedDuration = 
+        (hours > 0 ? `${hours}:${minutes.toString().padStart(2, '0')}:` : `${minutes}:`) + 
+        seconds.toString().padStart(2, '0');
+
+    // Display sound details
     soundDetails.innerHTML = `
         <p><strong>Description:</strong> ${sound.description || 'No description available.'}</p>
         <p><strong>Uploaded by:</strong> <a href="https://freesound.org/people/${sound.username}/" target="_blank">${sound.username}</a></p>
-        <p><strong>Duration:</strong> ${Math.floor(sound.duration / 3600)}:${Math.floor((sound.duration % 3600) / 60).toString().padStart(2, '0')}:${Math.floor(sound.duration % 60).toString().padStart(2, '0')} hours</p>
+        <p><strong>Duration:</strong> ${formattedDuration}</p>
     `;
+
+    // Add the float-right class to any images in the description
+    const descriptionImages = soundDetails.querySelectorAll('img');
+    descriptionImages.forEach(img => {
+        img.classList.add('float-right');
+    });
 }
 
 
 
 
-// Function to play a selected sound
-function playSound(url) {
-    console.log(`Playing sound from URL: ${url}`);  // Log the URL for debugging
-    const audioSource = document.getElementById('audioSource');
-    const audioPlayer = document.getElementById('audioPlayer');
-    
-    audioSource.src = url;
-    audioPlayer.load();  // Reload the audio player with the new source
-    audioPlayer.play().catch(error => console.error('Error playing audio:', error));
-}
+
+
+
+
+
 
 
 // Search button event listener

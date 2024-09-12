@@ -49,6 +49,7 @@
     border:1px solid black;
     padding-top: 1px;
     margin-bottom: 20px; /* Add bottom margin to create space */
+    margin-top: 20px;
 }
 
 #basefrequency {
@@ -99,3 +100,10 @@
     border: 1px solid black;
 }
 
+/* Style for right-aligned images */
+.float-right {
+    float: right;
+    margin-left: 15px;
+    margin-bottom: 10px;
+    max-width: 50%;  /* Adjust size if needed */
+}
