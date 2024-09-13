@@ -224,7 +224,6 @@ function stopSound() {
 // Initialize piano keys and display
 drawPiano(4);
 
-//const API_KEY = '2zyLM9SEVTdFe9UdVQKEl0bDMRDyX461mYemcs3S';  // Replace with your Freesound API Key
 const soundList = document.getElementById('soundList');
 const audioPlayer = document.getElementById('audioPlayer');
 const audioSource = document.getElementById('audioSource');
@@ -236,7 +235,7 @@ function fetchFreesound(query) {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            console.log('Data received:', data);  // Log the data for debugging
+            //console.log('Data received:', data);
             displaySounds(data.results);  // Display the sounds on the page
         })
         .catch(error => console.error('Error fetching Freesound data:', error));
@@ -328,15 +327,6 @@ function playSound(url, sound) {
         img.classList.add('float-right');
     });
 }
-
-
-
-
-
-
-
-
-
 
 
 // Search button event listener
